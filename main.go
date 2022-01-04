@@ -8,6 +8,7 @@ import (
 	_ "github.com/lib/pq"
 	"log"
 	"net/http"
+	"os"
 	"sqlTest/scrapers"
 	"strings"
 )
@@ -62,5 +63,9 @@ func main() {
 
 	router.HandleFunc("/ads", getAds).Methods("GET")
 
-	log.Fatal(http.ListenAndServe(":8081", router))
+	port := os.Getenv("PORT")
+	if port == "" {
+		 port = "8080"
+	}
+	log.Fatal(http.ListenAndServe(":" + port, router))
 }
